@@ -5,7 +5,7 @@ from equipos.models import EquipoFutbol
 class Noticias(models.Model):
     titulo = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=150)
-    imagen = models.CharField(max_length=150)
+    imagen = models.ImageField()
     equipo = models.ForeignKey(EquipoFutbol, on_delete=models.CASCADE)
     cuerpo = models.TextField()
     fecha_subida = models.DateTimeField(auto_now_add=True)

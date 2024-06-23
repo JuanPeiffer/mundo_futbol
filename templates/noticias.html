@@ -1,25 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'estilos/noticias.css' %}">
+{% endblock css %}
 {% block content %}
 
-<h1>Noticias</h1>
-    <ul>
+<h1 class="mb-4 text-center">Noticias</h1>
+<div class="container">
+    <div class="row justify-content-center">
         {% for noticia in noticias %}
-        <div class="card" style="width: 18rem;">
-            <img src="imagen.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{ noticia.titulo }}</h5>
-              <p class="card-text">{{ noticia.descripcion }}</p>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow card-hover">
+                <img src="{{ noticia.imagen.url }}" class="card-img-top" alt="{{ noticia.titulo }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ noticia.titulo }}</h5>
+                    <p class="card-text">{{ noticia.descripcion }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Fecha de Subida: {{ noticia.fecha_subida }}</li>
+                    <li class="list-group-item">Equipo de Fútbol: {{ noticia.equipo }}</li>
+                    <li class="list-group-item">Usuario: {{ noticia.usuario }}</li>
+                </ul>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Fecha de Subida: {{noticia.fecha_subida}}</li>
-              <li class="list-group-item">Equipo de Fútbol: {{noticia.equipo}}</li>
-              <li class="list-group-item">Usuario: {{noticia.usuario}}</li>
-            </ul>
-          </div>
-          
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+    
+<a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
+</div>
+
 
 {% endblock %}
