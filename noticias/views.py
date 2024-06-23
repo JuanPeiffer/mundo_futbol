@@ -1,10 +1,10 @@
 from django.http import HttpResponse
+from django.conf import settings
 from django.shortcuts import render, redirect
 from .models import Noticias
 from .forms import CrearNuevaNoticiaForm
 from django.contrib.auth.models import User
 import os
-from django.conf import settings
 
 def noticias(request):
     noticias_list = Noticias.objects.order_by('-fecha_subida')[:3]

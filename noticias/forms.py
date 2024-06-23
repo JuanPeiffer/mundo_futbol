@@ -13,9 +13,10 @@ class CrearNuevaNoticiaForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     imagen = forms.ImageField(
-        label='Imagen',
-        widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'})
-    )
+    label='Imagen',
+    widget=forms.ClearableFileInput(attrs={'class': 'form-control-file', 'data-browse': 'Elegir archivo'})
+)
+
     equipo = forms.ModelChoiceField(
         queryset=EquipoFutbol.objects.all(), 
         label='Equipo',
