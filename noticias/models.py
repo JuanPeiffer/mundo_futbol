@@ -1,15 +1,9 @@
 from django.db import models
+from equipos.models import EquipoFutbol
 
-# Create your models here.
-class EquipoFutbol(models.Model):
-    nombre = models.CharField(max_length=150)
-    url = models.CharField(max_length=150)
-    
-    def __str__(self):
-        return self.nombre
-    class Meta:
-        verbose_name = 'Equipo Futbol'
-        verbose_name_plural = 'Equipos de Futbol'
+
+
+# Crea tus modelelos aquí
 
 class Noticias(models.Model):
     titulo = models.CharField(max_length=150)
