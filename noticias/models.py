@@ -2,9 +2,6 @@ from django.db import models
 from equipos.models import EquipoFutbol
 
 
-
-# Crea tus modelelos aquí
-
 class Noticias(models.Model):
     titulo = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=150)

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Noticias</h1>
+    <ul>
+        {% for noticia in noticias %}
+        <div class="card" style="width: 18rem;">
+            <img src="imagen.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ noticia.titulo }}</h5>
+              <p class="card-text">{{ noticia.descripcion }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Fecha de Subida: {{noticia.fecha_subida}}</li>
+              <li class="list-group-item">Equipo de Fútbol: {{noticia.equipo}}</li>
+              <li class="list-group-item">Usuario: {{noticia.usuario}}</li>
+            </ul>
+          </div>
+          
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% endblock %}
