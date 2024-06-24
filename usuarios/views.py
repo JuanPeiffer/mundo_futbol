@@ -5,14 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 
-
-# Create your views here.
-def index(request):
-    return render(request, 'index.html')
-def about(request):
-    return HttpResponse("Sobre mundo")
-
-def signup(request):
+def signup(request):  # Registrar nuevo usuario
 
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -38,3 +31,6 @@ def signup(request):
                 'form': UserCreationForm,
                 'error': "Las cotraseñas no coinciden"
                 })
+def signout(request):  #  Cerrar la sesión
+    logout(request)
+    return redirect('home')

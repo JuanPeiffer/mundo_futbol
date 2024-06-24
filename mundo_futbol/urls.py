@@ -4,11 +4,13 @@ from django.conf import settings
 from django.urls import path, include
 
 
-
+# SI NO TIENE NADA EN PATH '' ES XQ NO TIENE NADA ANTES DEL / EN LA URL
+# POR EJEMPLO PATH '', INCLUDE 'equipos.urls' (SERIA LOCALHOST/BOCA) Y NO LOCALHOST/EQUIPOS/BOCA/
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('equipos.urls')),
     path('noticias/', include('noticias.urls')),
+    path('', include('usuarios.urls'))
 ]
 
 # Agregar las URL de los medios para la aplicación usuarios
