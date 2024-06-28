@@ -4,6 +4,16 @@
 
 <h1>Editar Noticia</h1>
 
-{{noticia.titulo}}
+<div class="container my-5" style="max-width: 75%;">
+    <h1>Creador de Noticias</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="btn-group mt-3" role="group" aria-label="Acciones">
+            <button type="submit" class="btn btn-primary">Modificar Noticia</button>
+            <a href="../" class="btn btn-danger" style="margin-left: 15px;">Volver</a>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

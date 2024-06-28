@@ -16,8 +16,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    },
+}
 
 
 # Media Files (Images)
