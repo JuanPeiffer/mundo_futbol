@@ -37,3 +37,11 @@ def CrearNoticia(request):
     else:
         form = CrearNuevaNoticiaForm()
     return render(request, 'crear_noticia.html', {'form': form})
+
+def editar_noticia(request, noticia_id):
+    noticia = Noticias.objects.get(pk=noticia_id)
+    return render(request, 'editar_noticia.html', {'noticia' : noticia})
+
+def ver_noticia(request, noticia_id):
+    noticia = Noticias.objects.get(pk=noticia_id)
+    return render(request, 'ver_noticia.html', {'noticia' : noticia})

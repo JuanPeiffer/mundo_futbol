@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4">{{ noticia.titulo }}</h1>
+            <h3 class="text-muted">{{ noticia.descripcion }}</h3>
+            {% if noticia.imagen %}
+                <img src="{{ noticia.imagen.url }}" class="img-fluid rounded my-3" alt="{{ noticia.titulo }}">
+            {% endif %}
+            <p class="lead">{{ noticia.cuerpo }}</p>
+            <div class="text-muted">
+                <small>Publicado el: {{ noticia.fecha_subida|date:"d M Y" }} por {{ noticia.usuario }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
