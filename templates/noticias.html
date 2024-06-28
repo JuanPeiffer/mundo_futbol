@@ -11,24 +11,25 @@
     <div class="row justify-content-center">
         {% for noticia in noticias %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow card-hover">
-                <img src="{{ noticia.imagen.url }}" class="card-img-top" alt="{{ noticia.titulo }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ noticia.titulo }}</h5>
-                    <p class="card-text">{{ noticia.descripcion }}</p>
+            <a href="{% url 'ver_noticia' noticia.id %}" class="text-decoration-none text-dark">
+                <div class="card h-100 shadow card-hover">
+                    <img src="{{ noticia.imagen.url }}" class="card-img-top" alt="{{ noticia.titulo }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                        <p class="card-text">{{ noticia.descripcion }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Fecha de Subida: {{ noticia.fecha_subida }}</li>
+                        <li class="list-group-item">Equipo de Fútbol: {{ noticia.equipo }}</li>
+                        <li class="list-group-item">Usuario: {{ noticia.usuario }}</li>
+                    </ul>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Fecha de Subida: {{ noticia.fecha_subida }}</li>
-                    <li class="list-group-item">Equipo de Fútbol: {{ noticia.equipo }}</li>
-                    <li class="list-group-item">Usuario: {{ noticia.usuario }}</li>
-                </ul>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
     
-<a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
+    <a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
 </div>
-
 
 {% endblock %}

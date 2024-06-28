@@ -17,6 +17,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
 # Media Files (Images)
 
 # Configuración para la carpeta de medios de la aplicación usuarios
@@ -40,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'equipos',
     'noticias',
-    'usuarios'
+    'usuarios',
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
