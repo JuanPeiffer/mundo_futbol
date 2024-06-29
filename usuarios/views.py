@@ -17,7 +17,8 @@ def signup(request):             # Registrar nuevo usuario
             try:
                 user = User.objects.create_user(
                 username=request.POST['username'],
-                password=request.POST['password1'])
+                password=request.POST['password1'],
+                email=request.POST['email'])
                 user.save()
                 login(request, user)
                 return redirect('home')
