@@ -7,12 +7,11 @@ from django.contrib.auth.models import User
 import os
 from django.shortcuts import get_object_or_404
 
-def noticias(request):
+def noticias(request):   # Cards de noticias
     noticias_list = Noticias.objects.order_by('-fecha_subida')[:3]
     return render(request, 'noticias.html', {'noticias': noticias_list})
 
-
-def CrearNoticia(request):
+def CrearNoticia(request):  # Crear nueva noticia
     if request.method == 'POST':
         form = CrearNuevaNoticiaForm(request.POST, request.FILES)
         if form.is_valid():
@@ -40,7 +39,7 @@ def CrearNoticia(request):
         form = CrearNuevaNoticiaForm()
     return render(request, 'crear_noticia.html', {'form': form})
 
-def editar_noticia(request, noticia_id):
+def editar_noticia(request, noticia_id):    # Editar noticia
     noticia = get_object_or_404(Noticias, pk=noticia_id)
 
     if request.method == 'POST':
@@ -78,6 +77,14 @@ def editar_noticia(request, noticia_id):
 
     return render(request, 'editar_noticia.html', {'noticia': noticia, 'form': form_edit})
 
-def ver_noticia(request, noticia_id):
+def ver_noticia(request, noticia_id): # Ver Noticia
     noticia = get_object_or_404(Noticias, pk=noticia_id)
     return render(request, 'ver_noticia.html', {'noticia' : noticia})
+
+# ---------------------------------------------------------------- #
+def borrar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticias, pk=noticia_id)
+    if request.method == 'POST':
+        noticia.delete()
+        return redirect('/noticias')
+    return render(request, 'borrar_noticia.html', {'noticia' : noticia})

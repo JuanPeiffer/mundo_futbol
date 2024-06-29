@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrar Noticia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>¿Estás seguro de que deseas borrar esta noticia?</h1>
+        <p>{{ noticia.titulo }}</p>
+        {% if noticia.imagen %}
+                <img src="{{ noticia.imagen.url }}" class="img-fluid rounded my-3" alt="{{ noticia.titulo }}">
+            {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Borrar</button>
+            <a href="{% url 'ver_noticia' noticia.id %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
