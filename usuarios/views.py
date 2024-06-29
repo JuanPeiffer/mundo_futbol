@@ -31,9 +31,11 @@ def signup(request):             # Registrar nuevo usuario
                 'form': UserCreationForm,
                 'error': "Las cotraseñas no coinciden"
                 })
+    
 def signout(request):            #  Cerrar la sesión
     logout(request)
-    return redirect('login')
+    return redirect('home')
+
 
 def signin(request):             # Iniciar sesión
     if request.method == 'GET':
@@ -52,7 +54,3 @@ def signin(request):             # Iniciar sesión
             'form': AuthenticationForm,
             'error': "Usuario o contraseña incorrectos"
             })
-        
-def logout(request): # Cerrar la sesión
-    logout(request)
-    return redirect('login')
