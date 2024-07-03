@@ -24,12 +24,9 @@ CKEDITOR_5_CONFIGS = {
     },
 }
 
+AUTH_USER_MODEL = 'usuarios.CustomUser'
 
-# Media Files (Images)
 
-# Configuración para la carpeta de medios de la aplicación usuarios
-# USUARIOS_MEDIA_URL = '/usuarios/media/'
-# USUARIOS_MEDIA_ROOT = os.path.join(BASE_DIR, 'usuarios', 'media')
 
 # Configuración para la carpeta de medios de la aplicación noticias
 NOTICIAS_MEDIA_URL = '/noticias/media/'
@@ -46,11 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'ckeditor_uploader',
     'equipos',
     'noticias',
-    'usuarios',
-    'ckeditor',
-    'ckeditor_uploader'
+    'usuarios'
 ]
 
 MIDDLEWARE = [

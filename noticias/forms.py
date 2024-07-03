@@ -5,18 +5,20 @@ from ckeditor.widgets import CKEditorWidget
 class CrearNuevaNoticiaForm(forms.ModelForm):
     class Meta:
         model = Noticias
-        fields = ['titulo', 'descripcion', 'imagen', 'equipo', 'cuerpo']
+        fields = ['titulo', 'descripcion', 'imagen', 'equipo', 'seleccion', 'cuerpo']
         labels = {
             'titulo': 'Título',
             'descripcion': 'Descripción',
             'imagen': 'Imagen',
             'equipo': 'Equipo',
-            'cuerpo': 'Cuerpo'
+            'seleccion': 'Selección',
+            'cuerpo': 'Cuerpo',
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'data-browse': 'Elegir archivo'}),
             'equipo': forms.Select(attrs={'class': 'form-control'}),
+            'seleccion': forms.Select(attrs={'class': 'form-control'}),
             'cuerpo': CKEditorWidget(),
         }

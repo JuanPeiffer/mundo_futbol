@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from .models import CustomUser
 
 def signup(request):             # Registrar nuevo usuario
 
@@ -15,7 +16,7 @@ def signup(request):             # Registrar nuevo usuario
         if request.POST['password1'] == request.POST['password2']:
             # Register User
             try:
-                user = User.objects.create_user(
+                user = CustomUser.objects.create_user(
                 username=request.POST['username'],
                 password=request.POST['password1'],
                 email=request.POST['email'])

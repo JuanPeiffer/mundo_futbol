@@ -4,9 +4,13 @@ from django.shortcuts import render, redirect
 from .models import Noticias
 from .forms import CrearNuevaNoticiaForm
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 import os
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+User = get_user_model()  # Obtener el modelo de usuario configurado (CustomUser)
+
 
 def noticias(request):   # Cards de noticias
     noticias_list = Noticias.objects.order_by('-fecha_subida')[:3]
@@ -31,8 +35,8 @@ def CrearNoticia(request):  # Crear nueva noticia
                 descripcion=form.cleaned_data['descripcion'],
                 imagen=os.path.join('noticias', 'media', imagen.name),  # Guarda la ruta de la imagen en el modelo
                 equipo=form.cleaned_data['equipo'],
+                seleccion=form.cleaned_data['seleccion'],
                 cuerpo=form.cleaned_data['cuerpo'],
-                # usuario=User.objects.get(username='JuanPablo')
                 usuario=User.objects.get(username=request.user.username)
             )
             noticia.save()  
@@ -70,6 +74,7 @@ def editar_noticia(request, noticia_id):    # Editar noticia
             noticia.titulo = form_edit.cleaned_data['titulo']
             noticia.descripcion = form_edit.cleaned_data['descripcion']
             noticia.equipo = form_edit.cleaned_data['equipo']
+            noticia.seleccion = form_edit.cleaned_data['seleccion']
             noticia.cuerpo = form_edit.cleaned_data['cuerpo']
             noticia.usuario = request.user
             noticia.save()

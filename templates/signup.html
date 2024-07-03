@@ -10,7 +10,11 @@
             <div class="col-12 col-md-6 offset-md-3">
                 <h1 class="text-center mb-4">Registro</h1>
                 <form method="POST" class="card card-body">
-                    {{ error }}
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endif %}
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="username" class="form-label">Ingrese su Usuario</label>
@@ -28,7 +32,10 @@
                         <label for="email" class="form-label">Ingrese su Email</label>
                         <input type="email" name="email" id="email" placeholder="Email" class="form-control">
                     </div>
-                    
+                    <div class="mb-3">
+                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control">
+                    </div>
                     <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
                 </form>
             </div>
