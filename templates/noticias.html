@@ -20,7 +20,14 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Fecha de Subida: {{ noticia.fecha_subida }}</li>
+
+                        {% if noticia.seleccion %}
+                        <li class="list-group-item">Equipo de Fútbol: {{ noticia.seleccion }}</li>
+                        {% else %}
                         <li class="list-group-item">Equipo de Fútbol: {{ noticia.equipo }}</li>
+                        {% endif %}
+
+
                         <li class="list-group-item">Usuario: {{ noticia.usuario }}</li>
                     </ul>
                 </div>

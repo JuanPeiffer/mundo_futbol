@@ -62,10 +62,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mundo_futbol.urls'
 
+# settings.py
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/ 'templates'], 
+        'DIRS': [
+            BASE_DIR / 'templates',
+            BASE_DIR / 'templates/staff/noticias',
+            BASE_DIR / 'templates/staff/user',
+        ], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +83,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'mundo_futbol.wsgi.application'
 
