@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
         ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Fechas importantes', {'fields': ('last_login', 'date_joined')}),
     )
-    search_fields = ['username', 'email', 'equipo__nombre']
+    search_fields = ['username', 'email', 'equipo_nombre']
     ordering = ['username']
 
 admin.site.register(CustomUser, CustomUserAdmin)
