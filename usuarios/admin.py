@@ -3,6 +3,14 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
-    pass
+    list_display = ['username', 'email', 'fecha_nacimiento', 'equipo', 'twitter', 'celular', 'facebook', 'instagram', 'whatsapp']
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Información personal', {'fields': ('first_name', 'last_name', 'email', 'fecha_nacimiento', 'equipo', 'twitter', 'celular', 'facebook', 'instagram', 'whatsapp')}),
+        ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Fechas importantes', {'fields': ('last_login', 'date_joined')}),
+    )
+    search_fields = ['username', 'email', 'equipo__nombre']
+    ordering = ['username']
 
 admin.site.register(CustomUser, CustomUserAdmin)

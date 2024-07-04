@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def signup(request):             # Registrar nuevo usuario
 
@@ -56,3 +59,9 @@ def signin(request):             # Iniciar sesión
             'form': AuthenticationForm,
             'error': "Usuario o contraseña incorrectos"
             })
+        
+
+# Editar usuario con datos obtenidos en User
+
+def editar(request):
+    return render(request, 'editar.html')

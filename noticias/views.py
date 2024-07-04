@@ -4,12 +4,12 @@ from django.shortcuts import render, redirect
 from .models import Noticias
 from .forms import CrearNuevaNoticiaForm
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 import os
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
-User = get_user_model()  # Obtener el modelo de usuario configurado (CustomUser)
+User = get_user_model()
 
 
 def noticias(request):   # Cards de noticias
@@ -46,29 +46,35 @@ def CrearNoticia(request):  # Crear nueva noticia
     return render(request, 'crear_noticia.html', {'form': form})
 
 @login_required
-def editar_noticia(request, noticia_id):    # Editar noticia
+def editar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticias, pk=noticia_id)
+
+    # Verificar si el usuario actual es el propietario de la noticia
+    if request.user != noticia.usuario:
+        raise Http404("No tiene permiso para editar esta noticia.")
 
     if request.method == 'POST':
         form_edit = CrearNuevaNoticiaForm(request.POST, request.FILES, instance=noticia)
         if form_edit.is_valid():
-            # Eliminar la imagen anterior si hay una nueva imagen proporcionada
+            # Verificar si hay una nueva imagen
             if 'imagen' in request.FILES:
-                # Obtener la ruta de la imagen anterior y eliminarla del sistema de archivos
+                # Obtener la nueva imagen
+                nueva_imagen = request.FILES['imagen']
+
+                # Eliminar la imagen anterior si existe
                 if noticia.imagen:
                     ruta_imagen_anterior = os.path.join(settings.MEDIA_ROOT, noticia.imagen.name)
                     if os.path.exists(ruta_imagen_anterior):
                         os.remove(ruta_imagen_anterior)
                 
-                # Procesar y guardar la nueva imagen
-                imagen_nueva = request.FILES['imagen']
-                ruta_imagen_nueva = os.path.join(settings.MEDIA_ROOT, 'noticias', 'media', imagen_nueva.name)
-                with open(ruta_imagen_nueva, 'wb') as archivo_destino:
-                    for parte in imagen_nueva.chunks():
-                        archivo_destino.write(parte)
+                # Guardar la nueva imagen en la carpeta de medios
+                ruta_nueva_imagen = os.path.join(settings.MEDIA_ROOT, 'noticias', 'media', nueva_imagen.name)
+                with open(ruta_nueva_imagen, 'wb') as archivo_destino:
+                    for chunk in nueva_imagen.chunks():
+                        archivo_destino.write(chunk)
 
                 # Actualizar la instancia de Noticias con la nueva imagen
-                noticia.imagen = os.path.join('noticias', 'media', imagen_nueva.name)
+                noticia.imagen = os.path.join('noticias', 'media', nueva_imagen.name)
 
             # Guardar otros campos de la noticia
             noticia.titulo = form_edit.cleaned_data['titulo']
@@ -76,7 +82,6 @@ def editar_noticia(request, noticia_id):    # Editar noticia
             noticia.equipo = form_edit.cleaned_data['equipo']
             noticia.seleccion = form_edit.cleaned_data['seleccion']
             noticia.cuerpo = form_edit.cleaned_data['cuerpo']
-            noticia.usuario = request.user
             noticia.save()
 
             return redirect('/noticias')

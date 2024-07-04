@@ -14,3 +14,13 @@ class CustomUserCreationForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'fecha_nacimiento' : forms.DateTimeField(attrs={'class': 'form-control'}),
         }
+
+class EditUserForm(CustomUserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'password', 'fecha_nacimiento']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'fecha_nacimiento' : forms.DateTimeField(attrs={'class': 'form-control'}),
+        }

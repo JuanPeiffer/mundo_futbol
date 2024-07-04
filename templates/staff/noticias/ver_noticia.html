@@ -15,9 +15,10 @@
                     <p class="mb-0"><strong>{{ noticia.usuario }}</strong></p>
                     <p class="text-muted mb-0">{{ noticia.fecha_subida|date:"d M Y h:i A" }}</p>
 
-
+                    {% if noticia.usuario == request.user %}
                     <a href="{% url 'editar_noticia' noticia.id %}" class="btn btn-primary">Editar</a>
                     <a href="{% url 'borrar_noticia' noticia.id %}" class="btn btn-danger">Borrar</a>
+                    {% endif %}
 
 
                     <div class="mt-2">
