@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from .models import CustomUser
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -12,15 +12,25 @@ class CustomUserCreationForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'fecha_nacimiento' : forms.DateTimeField(attrs={'class': 'form-control'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
 
-class EditUserForm(CustomUserCreationForm):
+class EditUserForm(forms.ModelForm):
+    current_password = forms.CharField(label='Contraseña actual', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'fecha_nacimiento']
+        fields = ['username', 'first_name', 'last_name', 'fecha_nacimiento', 'email', 'celular', 'instagram',
+                  'twitter', 'facebook',
+                  ]
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'fecha_nacimiento' : forms.DateTimeField(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email@email.com'}),
+            'celular': forms.TextInput(attrs={'class': 'form-control'}),
+            'instagram': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Usuario de Instagram'}),
+            'twitter': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Usuario de Twitter'}),
+            'facebook': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Link de Facebook'}),
         }

@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import CustomUser
 from django.contrib.auth import get_user_model
+from .forms import EditUserForm
 
 User = get_user_model()
 
@@ -61,7 +62,25 @@ def signin(request):             # Iniciar sesión
             })
         
 
-# Editar usuario con datos obtenidos en User
+from django.contrib.auth import update_session_auth_hash
 
 def editar(request):
-    return render(request, 'editar.html')
+    user = request.user
+
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            current_password = form.cleaned_data['current_password']
+            if user.check_password(current_password):
+                user = form.save(commit=False)
+                if 'password' in form.cleaned_data and form.cleaned_data['password']:
+                    user.set_password(form.cleaned_data['password'])
+                    update_session_auth_hash(request, user)  # Actualiza la sesión para evitar cerrar la sesión
+                user.save()
+                return redirect('home')
+            else:
+                form.add_error('current_password', 'La contraseña actual es incorrecta.')
+    else:
+        form = EditUserForm(instance=user)
+
+    return render(request, 'editar.html', {'form': form})
