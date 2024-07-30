@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
 
@@ -39,7 +40,9 @@ def CrearNoticia(request):  # Crear nueva noticia
                 cuerpo=form.cleaned_data['cuerpo'],
                 usuario=User.objects.get(username=request.user.username)
             )
-            noticia.save()  
+            request.user.noticias_publicadas += 1
+            request.user.save()
+            noticia.save()
             return redirect('/noticias')  
     else:
         form = CrearNuevaNoticiaForm()
@@ -100,6 +103,17 @@ def ver_noticia(request, noticia_id): # Ver Noticia
 def borrar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticias, pk=noticia_id)
     if request.method == 'POST':
+        request.user.noticias_publicadas -= 1
+        request.user.save()
         noticia.delete()
         return redirect('/noticias')
     return render(request, 'borrar_noticia.html', {'noticia' : noticia})
+
+
+from utils import get_football_data
+def home_view(request):
+    liga_id = '128'
+    standings = get_football_data('standings')
+    print(standings)  # Imprime los datos para verificar su estructura
+    return render(request, 'noticias.html', {'standings': standings})
+

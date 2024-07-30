@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     celular = models.CharField(max_length=15, null=True, blank=True)
     facebook = models.CharField(max_length=55, null=True, blank=True)
     instagram = models.CharField(max_length=35, null=True, blank=True)
+    noticias_publicadas = models.IntegerField(default=0)
 
     def __str__(self):
         return self.username

@@ -1,5 +1,14 @@
 from pathlib import Path
 import os
+import environ
+
+# Inicializa django-environ
+env = environ.Env()
+environ.Env.read_env()
+
+# Obtén la clave API
+FOOTBALL_API_KEY = '53b73863681b9afe10db4b943280a00e'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
