@@ -71,8 +71,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mundo_futbol.urls'
 
-# settings.py
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -88,11 +86,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mundo_futbol.context_processors.football_api_key',
             ],
         },
     },
 ]
-
 
 
 WSGI_APPLICATION = 'mundo_futbol.wsgi.application'

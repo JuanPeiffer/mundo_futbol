@@ -13,9 +13,14 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def noticias(request):   # Cards de noticias
+def noticias(request):
     noticias_list = Noticias.objects.order_by('-fecha_subida')[:3]
-    return render(request, 'noticias.html', {'noticias': noticias_list})
+    context = {
+        'noticias': noticias_list,
+    }
+    return render(request, 'noticias.html', context)
+
+
 
 @login_required
 def CrearNoticia(request):  # Crear nueva noticia
@@ -110,10 +115,4 @@ def borrar_noticia(request, noticia_id):
     return render(request, 'borrar_noticia.html', {'noticia' : noticia})
 
 
-from utils import get_football_data
-def home_view(request):
-    liga_id = '128'
-    standings = get_football_data('standings')
-    print(standings)  # Imprime los datos para verificar su estructura
-    return render(request, 'noticias.html', {'standings': standings})
 
