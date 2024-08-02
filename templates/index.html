@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>Bienvenido a <b>Mundo Futbol</b>!</h1>
-    {% if user.is_authenticated %}
-    <a href="/noticias" class="btn btn-primary">Ver las ultimas Noticias</a>
-
-    {% else %}
-    <p>Recuerde que para ver las noticias debe Inciar Sesion!</p>
-    <a href="/login" class="btn btn-primary">Iniciar Sesion</a>
-
-    {% endif %}
-
-    <!-- Incluye la tabla de posiciones -->
-{% include 'tabla.html' %}
+<div class="container">
+    <main class="content">
+        <h1>Bienvenido a <b>Mundo Futbol</b>!</h1>
+        {% if user.is_authenticated %}
+        <a href="/noticias" class="btn btn-primary">Ver las ultimas Noticias</a>
+        {% else %}
+        <p>Recuerde que para ver las noticias debe Inciar Sesion!</p>
+        <a href="/login" class="btn btn-primary">Iniciar Sesion</a>
+        {% endif %}
+        {% include 'game.html' %}
+    </main>
+        
+    <aside class="sidebar">
+        <!-- Incluye la tabla de posiciones -->
+        {% include 'tabla.html' %}
+    </aside>
+</div>
 
 {% endblock %}

@@ -1,16 +1,79 @@
-<h1>TABLA DE POSICIONES</h1>
+<style>
+    /* Estilo para el contenedor principal */
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
 
-<div id="wg-api-football-standings" class="tabla"
-    data-host="v3.football.api-sports.io"
-    data-key="{{ FOOTBALL_API_KEY }}"
-    data-league="128"
-    data-team=""
-    data-season="2024"
-    data-theme=""
-    data-show-errors="false"
-    data-show-logos="true"
-    class="wg_loader">
+    /* Estilo para el contenido principal */
+    .content {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    /* Estilo para el aside */
+    .sidebar {
+        width: 300px;
+        flex-shrink: 0;
+    }
+
+    /* Estilos para la tabla en el aside */
+    .tabla {
+        width: 100%;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+    }
+
+    .tabla h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .tabla .wg_loader {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 600px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+
+        .sidebar {
+            width: 95%;
+        }
+    }
+</style>
+
+
+<div class="tabla">
+    <h1>TABLA DE POSICIONES</h1>
+
+    <div id="wg-api-football-standings"
+        data-host="v3.football.api-sports.io"
+        data-key="{{ FOOTBALL_API_KEY }}"
+        data-league="128"
+        data-team=""
+        data-season="2024"
+        data-theme=""
+        data-show-errors="false"
+        data-show-logos="true"
+        class="wg_loader">
+    </div>
 </div>
+
 <script
     type="module"
     src="https://widgets.api-sports.io/2.0.3/widgets.js">
