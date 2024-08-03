@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import CustomUser
 from django.contrib.auth import get_user_model
-from .forms import EditUserForm
+from .forms import EditUserForm, CustomAuthenticationForm
 
 
 User = get_user_model()
@@ -55,7 +55,7 @@ def signout(request):            #  Cerrar la sesión
 def signin(request):             # Iniciar sesión
     if request.method == 'GET':
         return render(request, 'login.html', {
-        'form': AuthenticationForm
+        'form': CustomAuthenticationForm
     })
     else:
         username = request.POST['username']
@@ -66,7 +66,7 @@ def signin(request):             # Iniciar sesión
             return redirect('home')
         else:
             return render(request, 'login.html', {
-            'form': AuthenticationForm,
+            'form': CustomAuthenticationForm,
             'error': "Usuario o contraseña incorrectos"
             })
         

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -13,6 +13,10 @@ class CustomUserCreationForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
 
 class EditUserForm(forms.ModelForm):
     current_password = forms.CharField(label='Contraseña actual', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
