@@ -6,7 +6,10 @@
 {% block content %}
 
 <h1 class="mb-4 text-center">Noticias</h1>
-<a href="../" class="mb-4 btn btn-primary">Volver</a>
+<a href="../" class="btn btn-primary">Volver</a>
+    {% if user_can_create_news %}
+    <a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
+    {% endif %}
 <div class="container">
     <div class="row justify-content-center">
         {% for noticia in noticias %}
@@ -33,14 +36,13 @@
         {% endfor %}
     </div>
     
-    {% if user_can_create_news %}
-    <a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
-    {% endif %}
+    
 
 
 
 
 </div>
+
 
 {% include 'tabla.html' %}
 
