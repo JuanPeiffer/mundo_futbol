@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from .models import CustomUser
 from django.contrib.auth import get_user_model
 from .forms import EditUserForm
+
 
 User = get_user_model()
 
@@ -92,3 +93,10 @@ def editar(request):
         form = EditUserForm(instance=user)
 
     return render(request, 'editar.html', {'form': form})
+
+
+
+
+def usuario(request, usuario_id): # Ver Usuario
+    usuario = get_object_or_404(User, pk=usuario_id)
+    return render(request, 'user.html', {'usuario' : usuario})

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    {% if usuario.profile_image %}
+                        <img src="{{ usuario.profile_image.url }}" class="rounded-circle mb-3" width="150" height="150" alt="{{ usuario }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Default Profile Picture">
+                    {% endif %}
+                    <h3>{{ usuario.username }}</h3>
+                    <p class="text-muted">{{ usuario.email }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Información del Perfil</h4>
+                    <p><strong>Nombre Completo:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+                    <p><strong>Fecha de Nacimiento:</strong> {{ usuario.fecha_nacimiento|date:"d M Y" }}</p>
+                    <p><strong>Equipo de Fútbol:</strong> 
+                        {% if usuario.equipo %}
+                            {{ usuario.equipo.nombre }}
+                        {% else %}
+                            No especificado
+                        {% endif %}
+                    </p>
+                    <p><strong>Noticias Publicadas:</strong> {{ usuario.noticias_publicadas }}</p>
+                    <h4 class="card-title mt-4">Redes Sociales</h4>
+                    <p>
+                        {% if usuario.twitter %}
+                            <a href="https://twitter.com/{{ usuario.twitter }}" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                        {% endif %}
+                        {% if usuario.facebook %}
+                            <a href="https://www.facebook.com/{{ usuario.facebook }}" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                        {% endif %}
+                        {% if usuario.instagram %}
+                            <a href="https://www.instagram.com/{{ usuario.instagram }}" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                        {% endif %}
+                        {% if usuario.celular %}
+                            <a href="tel:{{ usuario.celular }}" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-phone"></i> Celular
+                            </a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

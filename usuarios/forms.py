@@ -33,8 +33,3 @@ class EditUserForm(forms.ModelForm):
             'twitter': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Usuario de Twitter'}),
             'facebook': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Link de Facebook'}),
         }
-
-    def __init__(self, *args, **kwargs):
-        super(EditUserForm, self).__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            self.fields['fecha_nacimiento'].initial = self.instance.fecha_nacimiento.strftime('%Y-%m-%d')
