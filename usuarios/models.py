@@ -3,6 +3,7 @@ from django.db import models
 from equipos.models import EquipoFutbol
 
 class CustomUser(AbstractUser):
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     equipo = models.ForeignKey(EquipoFutbol, on_delete=models.CASCADE, null=True, blank=True)
     twitter = models.CharField(max_length=35, null=True, blank=True)

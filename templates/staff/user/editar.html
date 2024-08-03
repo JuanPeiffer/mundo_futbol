@@ -1,13 +1,130 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Cropper.js CSS -->
+<link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
 
-<h1>Editar Usuario</h1>
-{{error}}
-<form action="" method="POST">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn btn-primary">Editar</button>
-</form>
+<div class="container mt-5">
+    <h2>Editar Perfil</h2>
+    <form method="post" enctype="multipart/form-data" class="bg-light p-4 rounded shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.non_field_errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Nombre de usuario</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_equipo" class="form-label">Equipo</label>
+            {{ form.equipo }}
+            {{ form.equipo.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_first_name" class="form-label">Nombre</label>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Apellidos</label>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_fecha_nacimiento" class="form-label">Fecha nacimiento</label>
+            {{ form.fecha_nacimiento }}
+            {{ form.fecha_nacimiento.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Dirección de correo electrónico</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_celular" class="form-label">Celular</label>
+            {{ form.celular }}
+            {{ form.celular.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_instagram" class="form-label">Instagram</label>
+            {{ form.instagram }}
+            {{ form.instagram.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_twitter" class="form-label">Twitter</label>
+            {{ form.twitter }}
+            {{ form.twitter.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_facebook" class="form-label">Facebook</label>
+            {{ form.facebook }}
+            {{ form.facebook.errors }}
+        </div>
+        <div class="mb-3">
+            <label for="id_profile_image" class="form-label">Imagen de perfil</label>
+            <input type="file" class="form-control" id="id_profile_image" name="profile_image" accept="image/*">
+            {% if form.instance.profile_image %}
+                <div class="mt-3">
+                    <img id="current-image" src="{{ form.instance.profile_image.url }}" class="img-fluid rounded" style="max-height: 300px;">
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <img id="preview" class="img-fluid rounded" style="max-height: 300px; display: none;">
+        </div>
+        <div class="mb-3" id="crop-container" style="display: none;">
+            <label for="crop-image" class="form-label">Recortar Imagen</label>
+            <img id="crop-image" class="img-fluid rounded">
+        </div>
+        <button type="button" id="crop-button" class="btn btn-primary mb-3" style="display: none;">Recortar Imagen</button>
+        <div class="mb-3">
+            <label for="id_current_password" class="form-label">Contraseña actual</label>
+            {{ form.current_password }}
+            {{ form.current_password.errors }}
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
+        </div>
+    </form>
+</div>
 
+<!-- Cropper.js JavaScript -->
+<script src="https://unpkg.com/cropperjs"></script>
+
+<script>
+document.getElementById('id_profile_image').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imgElement = document.getElementById('crop-image');
+            imgElement.src = event.target.result;
+            document.getElementById('crop-container').style.display = 'block';
+            document.getElementById('crop-button').style.display = 'block';
+            const cropper = new Cropper(imgElement, {
+                aspectRatio: 1,
+                viewMode: 2,
+                preview: '#preview',
+                autoCropArea: 1
+            });
+
+            document.getElementById('crop-button').addEventListener('click', function () {
+                const canvas = cropper.getCroppedCanvas();
+                document.getElementById('preview').src = canvas.toDataURL();
+                document.getElementById('preview').style.display = 'block';
+                document.getElementById('crop-container').style.display = 'none';
+                document.getElementById('crop-button').style.display = 'none';
+
+                canvas.toBlob(function (blob) {
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(new File([blob], file.name));
+                    document.getElementById('id_profile_image').files = dataTransfer.files;
+                });
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 {% endblock %}

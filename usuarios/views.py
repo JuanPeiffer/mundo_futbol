@@ -77,7 +77,7 @@ def editar(request):
     user = request.user
 
     if request.method == 'POST':
-        form = EditUserForm(request.POST, instance=user)
+        form = EditUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             current_password = form.cleaned_data['current_password']
             if user.check_password(current_password):
@@ -93,9 +93,6 @@ def editar(request):
         form = EditUserForm(instance=user)
 
     return render(request, 'editar.html', {'form': form})
-
-
-
 
 def usuario(request, usuario_id): # Ver Usuario
     usuario = get_object_or_404(User, pk=usuario_id)

@@ -16,11 +16,12 @@ class CustomUserCreationForm(UserCreationForm):
 
 class EditUserForm(forms.ModelForm):
     current_password = forms.CharField(label='Contraseña actual', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    profile_image = forms.ImageField(required=False, label='Imagen de perfil')
 
     class Meta:
         model = CustomUser
         fields = ['username', 'equipo', 'first_name', 'last_name', 'fecha_nacimiento', 'email', 'celular', 'instagram',
-                  'twitter', 'facebook']
+                  'twitter', 'facebook', 'profile_image']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
