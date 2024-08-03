@@ -87,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mundo_futbol.context_processors.football_api_key',
+                'mundo_futbol.context_processors.user_permissions',
             ],
         },
     },

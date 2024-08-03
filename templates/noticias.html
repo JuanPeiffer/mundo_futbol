@@ -33,7 +33,13 @@
         {% endfor %}
     </div>
     
+    {% if user_can_create_news %}
     <a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
+    {% endif %}
+
+
+
+
 </div>
 
 {% include 'tabla.html' %}

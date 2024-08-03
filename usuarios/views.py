@@ -10,6 +10,14 @@ from .forms import EditUserForm
 
 User = get_user_model()
 
+
+def user_permissions(request):
+    if request.user.is_authenticated:
+        return {
+            'user_can_create_news': request.user.has_perm('noticias.add_noticia') or request.user.is_staff,
+        }
+    return {}
+
 def signup(request):             # Registrar nuevo usuario
 
     if request.method == 'GET':

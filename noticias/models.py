@@ -23,3 +23,8 @@ class Noticias(models.Model):
         indexes = [
             models.Index(fields=['-fecha_subida']),
         ]
+        permissions = [
+            ("add_noticia", "Puede añadir noticias"),
+            ("change_noticia", "Puede cambiar noticias"),
+            ("delete_noticia", "Puede borrar noticias"),
+        ]

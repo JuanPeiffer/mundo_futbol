@@ -6,7 +6,7 @@ from .forms import CrearNuevaNoticiaForm
 from django.contrib.auth.models import User
 import os
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import get_user_model
 
 
@@ -23,6 +23,7 @@ def noticias(request):
 
 
 @login_required
+@permission_required('noticias.add_noticia', raise_exception=True)
 def CrearNoticia(request):  # Crear nueva noticia
     if request.method == 'POST':
         form = CrearNuevaNoticiaForm(request.POST, request.FILES)
@@ -54,6 +55,7 @@ def CrearNoticia(request):  # Crear nueva noticia
     return render(request, 'crear_noticia.html', {'form': form})
 
 @login_required
+@permission_required('noticias.change_noticia', raise_exception=True)
 def editar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticias, pk=noticia_id)
 
@@ -105,6 +107,7 @@ def ver_noticia(request, noticia_id): # Ver Noticia
 # ---------------------------------------------------------------- #
 
 @login_required
+@permission_required('noticias.delete_noticia', raise_exception=True)
 def borrar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticias, pk=noticia_id)
     if request.method == 'POST':
