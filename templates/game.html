@@ -1,7 +1,6 @@
 <div id="wg-api-football-games"
      data-host="v3.football.api-sports.io"
      data-key="{{ FOOTBALL_API_KEY }}"
-     data-date=""
      data-league="128"
      data-season="2024"
      data-theme=""
@@ -13,7 +12,18 @@
      data-modal-standings="false"
      data-modal-show-logos="true">
 </div>
-<script
-    type="module"
-    src="https://widgets.api-sports.io/2.0.3/widgets.js">
+
+<script type="module" src="https://widgets.api-sports.io/2.0.3/widgets.js"></script>
+<script>
+  const dates = ["2024-03-01", "2024-03-02", "2024-03-03"]; // Cambia estas fechas según el fin de semana que desees mostrar
+  let currentIndex = 0;
+
+  function updateWidgetDate() {
+    const widget = document.getElementById('wg-api-football-games');
+    widget.setAttribute('data-date', dates[currentIndex]);
+    currentIndex = (currentIndex + 1) % dates.length;
+  }
+
+  // Cambia la fecha cada 5 segundos como ejemplo
+  setInterval(updateWidgetDate, 5000);
 </script>

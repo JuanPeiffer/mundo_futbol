@@ -1,78 +1,51 @@
-<style>
-    /* Estilo para el contenedor principal */
-    .container {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-    }
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Demo - Widget</title>
+    </head>
+    <body>
 
-    /* Estilo para el contenido principal */
-    .content {
-        flex: 1;
-        margin-right: 20px;
-    }
+        <div>
+            <a href="#" class="_link" data-league="128">Liga Profesional Argentina</a>
+            <a href="#" class="_link" data-league="129">Primera Nacional</a>
+            <a href="#" class="_link" data-league="130">Copa Argentina</a>
+        </div>
 
-    /* Estilo para el aside */
-    .sidebar {
-        width: 300px;
-        flex-shrink: 0;
-    }
+        <div id="wg-api-football-standings"
+            data-host="v3.football.api-sports.io"
+            data-key="{{FOOTBALL_API_KEY}}"
+            data-league="128"
+            data-team=""
+            data-season="2024"
+            data-theme=""
+            data-show-errors="false"
+            data-show-logos="true"
+            class="wg_loader">
+        </div>
+        <script
+            type="module"
+            src="https://widgets.api-sports.io/2.0.3/widgets.js">
+        </script>
 
-    /* Estilos para la tabla en el aside */
-    .tabla {
-        width: 20%;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #f9f9f9;
-    }
+    </body>
+</html>
+<script>
+    document.addEventListener('click', function (event) {
 
-    .tabla h1 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
-    }
+        if (!event.target.matches('._link')) return
+        event.preventDefault()
 
-    .tabla .wg_loader {
-        width: 100%;
-        height: auto;
-    }
+        let id = event.target.getAttribute('data-league')
 
-    /* Ajustes para pantallas pequeñas */
-    @media (max-width: 600px) {
-        .container {
-            flex-direction: column;
-            align-items: center;
-        }
+        let standings = document.getElementById('wg-api-football-standings')
+            standings.innerHTML = ''
+            standings.setAttribute('data-league', id);
 
-        .content {
-            margin-right: 0;
-            margin-bottom: 20px;
-        }
-
-        .sidebar {
-            width: 95%;
-        }
-    }
-</style>
-
-
-<div class="tabla">
-    <h1>TABLA DE POSICIONES</h1>
-
-    <div id="wg-api-football-standings"
-        data-host="v3.football.api-sports.io"
-        data-key="{{ FOOTBALL_API_KEY }}"
-        data-league="128"
-        data-team=""
-        data-season="2024"
-        data-theme=""
-        data-show-errors="false"
-        data-show-logos="true"
-        class="wg_loader">
-    </div>
-</div>
-
-<script
-    type="module"
-    src="https://widgets.api-sports.io/2.0.3/widgets.js">
+        window.document.dispatchEvent(new Event("DOMContentLoaded", {
+          bubbles: true,
+          cancelable: true
+        }));
+    })
 </script>
