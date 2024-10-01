@@ -9,10 +9,14 @@
             <hr>
             <div class="d-flex align-items-center my-3">
                 {% if noticia.usuario.profile_image %}
-                    <img src="{{ noticia.usuario.profile_image.url }}" class="rounded-circle me-3" width="50" height="50" alt="{{ noticia.usuario }}">
+                    <a href="{% url 'usuario' noticia.usuario.id %}">
+                        <img src="{{ noticia.usuario.profile_image.url }}" class="rounded-circle me-3" width="50" height="50" alt="{{ noticia.usuario }}">
+                    </a>
                 {% endif %}
                 <div>
-                    <p class="mb-0"><strong>{{ noticia.usuario }}</strong></p>
+                    <a href="{% url 'usuario' noticia.usuario.id %}" class="text-decoration-none">
+                        <p class="mb-0"><strong>{{ noticia.usuario }}</strong></p>
+                    </a>
                     <p class="text-muted mb-0">{{ noticia.fecha_subida|date:"d M Y h:i A" }}</p>
 
                     {% if noticia.usuario == request.user and user_can_create_news %}
@@ -21,27 +25,29 @@
                     {% endif %}
 
                     <div class="mt-2">
+                        {% if noticia.usuario.instagram %}
+                            <a href="https://instagram.com/{{ noticia.usuario.instagram }}" target="_blank" class="text-decoration-none me-2">
+                                <i style="color: #000;" class="fab fa-instagram fa-lg"></i>
+                            </a>
+                        {% endif %}
                         {% if noticia.usuario.twitter %}
-                            <a href="{{ noticia.usuario.twitter }}" class="text-decoration-none me-2">
-                                <i class="fab fa-twitter fa-lg"></i>
+                            <a href="https://twitter.com/{{ noticia.usuario.twitter }}" target="_blank" class="text-decoration-none me-2">
+                                <i style="color: #000;" class="fab fa-twitter fa-lg"></i>
                             </a>
                         {% endif %}
                         {% if noticia.usuario.facebook %}
-                            <a href="{{ noticia.usuario.facebook }}" class="text-decoration-none me-2">
-                                <i class="fab fa-facebook fa-lg"></i>
+                            <a href="{{ noticia.usuario.facebook }}" target="_blank" class="text-decoration-none me-2">
+                                <i style="color: #000;" class="fab fa-facebook fa-lg"></i>
                             </a>
                         {% endif %}
-                        {% if noticia.usuario.instagram %}
-                            <a href="{{ noticia.usuario.instagram }}" class="text-decoration-none me-2">
-                                <i class="fab fa-instagram fa-lg"></i>
-                            </a>
-                        {% endif %}
+                        
                         {% if noticia.usuario.whatsapp %}
                             <a href="{{ noticia.usuario.whatsapp }}" class="text-decoration-none">
-                                <i class="fab fa-whatsapp fa-lg"></i>
+                                <i style="color: #000;" class="fab fa-whatsapp fa-lg"></i>
                             </a>
                         {% endif %}
                     </div>
+                    
                 </div>
             </div>
             {% if noticia.imagen %}
