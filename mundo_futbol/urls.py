@@ -12,6 +12,7 @@ urlpatterns = [
     path('noticias/', include('noticias.urls')),
     path('', include('usuarios.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', include('equipos.urls')),
 ]
 
 # Agregar las URL de los medios para la aplicación usuarios
