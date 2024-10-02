@@ -4,7 +4,7 @@
           <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Inicio</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="/noticias">Noticias</a>
+          <a class="nav-link" href="/noticias/">Noticias</a>
       </li>
 
       {% if user.is_authenticated %}
@@ -17,7 +17,7 @@
 
       {% if user_can_create_news %}
       <li class="nav-item">
-          <a class="nav-link" href="/noticias/crear_noticia">Crear Noticia</a>
+          <a class="nav-link" href="{% url 'crear_noticia' %}">Crear Noticia</a>
       </li>
       {% endif %}
 

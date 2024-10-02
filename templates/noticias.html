@@ -8,7 +8,7 @@
 <h1 class="mb-4 text-center">Noticias</h1>
 <a href="../" class="btn btn-primary">Volver</a>
     {% if user_can_create_news %}
-    <a href="/noticias/crear_noticia" class="btn btn-warning">Crear Noticia</a>
+    <a href="{% url 'crear_noticia' %}" class="btn btn-warning">Crear Noticia</a>
     {% endif %}
 <div class="container">
     <div class="row justify-content-center">
