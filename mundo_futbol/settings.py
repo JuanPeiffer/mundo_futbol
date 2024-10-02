@@ -13,6 +13,7 @@ FOOTBALL_API_KEY = '53b73863681b9afe10db4b943280a00e'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+APPEND_SLASH = True # FUNCIONAN LOS LINKS SIN / FINAL
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -78,6 +79,7 @@ TEMPLATES = [
             BASE_DIR / 'templates',
             BASE_DIR / 'templates/staff/noticias',
             BASE_DIR / 'templates/staff/user',
+            BASE_DIR / 'templates/football_api',
         ], 
         'APP_DIRS': True,
         'OPTIONS': {
