@@ -7,7 +7,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Obtén la clave API
-FOOTBALL_API_KEY = '53b73863681b9afe10db4b943280a00e'
+FOOTBALL_API_KEY = '53b73863681b9afe10db4b943280a00e2'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

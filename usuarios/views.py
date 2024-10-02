@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import CustomUser
@@ -32,8 +32,11 @@ def signup(request):             # Registrar nuevo usuario
                 user = CustomUser.objects.create_user(
                 username=request.POST['username'],
                 password=request.POST['password1'],
-                email=request.POST['email'])
+                email=request.POST['email'])# Agregar el usuario al grupo "Usuario"
+                user_group = Group.objects.get(name='Usuario')
+                user.groups.add(user_group)
                 user.save()
+                
                 login(request, user)
                 return redirect('home')
             except IntegrityError:
