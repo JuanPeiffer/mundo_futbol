@@ -2,13 +2,76 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{{ equipo.nombre }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ equipo.nombre }} - Información</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .logo {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+        .info {
+            margin-top: 20px;
+        }
+        .info p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .info strong {
+            color: #555;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ equipo.nombre }}</h1>
-    <img src="{{ equipo.logo.url }}" alt="Logo de {{ equipo.nombre }}">
-    <p><strong>Historia:</strong> {{ equipo.historia }}</p>
-    <p><strong>Fundación:</strong> {{ equipo.fecha_fundacion }}</p>
-    <p><strong>Ciudad:</strong> {{ equipo.ciudad }}</p>
+
+    <div class="container">
+        {% load static %}
+        <h1>{{ equipo.nombre }}</h1>
+        <img src="{% static '' %}{{ equipo.logo }}" alt="Logo de {{ equipo.nombre }}" class="logo">
+
+        <div class="info">
+            <p><strong>Historia:</strong> {{ equipo.historia|truncatechars:500 }}</p>
+            <p><strong>Apodo:</strong> {{ equipo.apodo }}</p>
+            <p><strong>Director Técnico:</strong> {{ equipo.director_tecnico }}</p>
+            <p><strong>Presidente:</strong> {{ equipo.presidente }}</p>
+            <p><strong>Vicepresidente:</strong> {{ equipo.vicepresidente }}</p>
+            <p><strong>Cantidad de Socios:</strong> {{ equipo.cantidad_socios }}</p>
+            <p><strong>Goleador Histórico:</strong> {{ equipo.goleador_historico }}</p>
+            <p><strong>Jugadores Históricos:</strong> {{ equipo.jugadores_historicos|join:", " }}</p>
+            <p><strong>Jugador con Más Partidos:</strong> {{ equipo.jugador_mas_partidos }}</p>
+            <p><strong>Jugador con Más Títulos:</strong> {{ equipo.jugador_mas_titulos }}</p>
+            <p><strong>Entrenador Más Ganador:</strong> {{ equipo.entrenador_mas_ganador }}</p>
+            <p><strong>Estadio:</strong> {{ equipo.estadio }}</p>
+            <p><strong>Plantel Actual:</strong> {{ equipo.plantel_actual|join:", " }}</p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 MundoFutbol - Todos los derechos reservados.</p>
+        </div>
+    </div>
+
 </body>
 </html>
