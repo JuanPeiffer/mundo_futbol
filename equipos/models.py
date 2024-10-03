@@ -16,14 +16,7 @@ class Selecciones(models.Model):
 
 from django.db import models
 
-class Jugador(models.Model):
-    nombre = models.CharField(max_length=255)
-    posicion = models.CharField(max_length=100, blank=True)
-    fecha_nacimiento = models.DateField(null=True, blank=True)
-    equipo = models.ForeignKey('EquipoFutbol', related_name='jugadores', on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.nombre
 
 class EquipoFutbol(models.Model):
     nombre = models.CharField(max_length=255)
@@ -49,3 +42,15 @@ class EquipoFutbol(models.Model):
         verbose_name = 'Equipo Futbol'
         verbose_name_plural = 'Equipos de Futbol'
 
+class Jugador(models.Model):
+    nombre = models.CharField(max_length=100)
+    posicion = models.CharField(max_length=50)
+    equipo = models.ForeignKey(EquipoFutbol, related_name='jugadores', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        verbose_name = 'Jugador'
+        verbose_name_plural = 'Jugadores'
+    

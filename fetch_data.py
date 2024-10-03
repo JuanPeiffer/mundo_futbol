@@ -13,7 +13,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mundo_futbol.settings')
 django.setup()
 
 # Ahora puedes importar tus modelos
-from equipos.models import EquipoFutbol
+from equipos.models import EquipoFutbol, Jugador
 
 # URL de la API de API-FOOTBALL
 API_URL = "https://v3.football.api-sports.io/teams"
@@ -88,7 +88,7 @@ def fetch_data():
                     "ciudad": equipo.get('venue', {}).get('city', "Ciudad no disponible"),
                     "historia": historia,
                     "apodo": tyc_data.get('apodo', apodo),
-                    "director_tecnico": equipo.get('coach', {}).get('name', "Director técnico no disponible"),
+                    "director_tecnico": tyc_data.get('director_tecnico', equipo.get('coach', {}).get('name', "Director técnico no disponible")),
                     "presidente": tyc_data.get('presidente', "Presidente no disponible"),
                     "vicepresidente": tyc_data.get('vicepresidente', "Vicepresidente no disponible"),
                     "cantidad_socios": cantidad_socios_valor,
@@ -98,9 +98,17 @@ def fetch_data():
                     "jugador_mas_titulos": tyc_data.get('jugador_mas_titulos', "No disponible"),
                     "entrenador_mas_ganador": tyc_data.get('entrenador_mas_ganador', "No disponible"),
                     "estadio": equipo.get('venue', {}).get('name', "Estadio no disponible"),
-                    "plantel_actual": tyc_data.get('plantel', {})
                 }
             )
+
+            # Agregar jugadores al plantel actual
+            for position, players in tyc_data.get('plantel', {}).items():
+                for player_name in players:
+                    Jugador.objects.update_or_create(
+                        nombre=player_name,
+                        equipo=equipo_obj,
+                        posicion=position
+                    )
 
             # Agregar todos los datos del equipo al JSON
             equipos_data.append({
@@ -119,7 +127,7 @@ def fetch_data():
                 "jugador_mas_titulos": equipo_obj.jugador_mas_titulos,
                 "entrenador_mas_ganador": equipo_obj.entrenador_mas_ganador,
                 "estadio": equipo_obj.estadio,
-                "plantel_actual": equipo_obj.plantel_actual
+                "plantel_actual": list(equipo_obj.jugadores.values_list('nombre', flat=True))
             })
 
         # Guardar datos en JSON
@@ -133,7 +141,6 @@ def fetch_data():
     else:
         print("Error al obtener los datos de la API:", response.status_code)
 
-
 def safe_find_next(soup, search_text):
     """Función para buscar un texto y obtener el siguiente elemento, manejando errores."""
     try:
@@ -142,7 +149,6 @@ def safe_find_next(soup, search_text):
     except Exception as e:
         print(f"Error buscando {search_text}: {e}")
         return None
-
 
 def get_tycsports_data(team_name):
     """Función para obtener datos de TyC Sports."""
@@ -157,8 +163,9 @@ def get_tycsports_data(team_name):
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
 
+            # Extraer información del equipo
             apodo = safe_find_next(soup, 'Apodo')
-            director_tecnico = safe_find_next(soup, 'Director Técnico')
+            director_tecnico = safe_find_next(soup, 'Director Técnico') or safe_find_next(soup, 'Entrenador')
             presidente = safe_find_next(soup, 'Presidente')
             vicepresidente = safe_find_next(soup, 'Vicepresidente')
             cantidad_socios_valor = safe_find_next(soup, 'Cantidad de socios')
@@ -183,32 +190,30 @@ def get_tycsports_data(team_name):
             plantel_delanteros = [delantero.text.strip() for delantero in soup.find(text='Delanteros').find_next('ul').find_all('li')] if soup.find(text='Delanteros') else []
 
             return {
-                "apodo": apodo or "No disponible",
-                "director_tecnico": director_tecnico or "No disponible",
-                "presidente": presidente or "No disponible",
-                "vicepresidente": vicepresidente or "No disponible",
+                "apodo": apodo,
+                "director_tecnico": director_tecnico,
+                "presidente": presidente,
+                "vicepresidente": vicepresidente,
                 "cantidad_socios": cantidad_socios_valor,
-                "goleador_historico": goleador_historico or "No disponible",
-                "jugadores_historicos": jugadores_historicos or [],
-                "jugador_mas_partidos": jugador_mas_partidos or "No disponible",
-                "jugador_mas_titulos": jugador_mas_titulos or "No disponible",
-                "entrenador_mas_ganador": entrenador_mas_ganador or "No disponible",
-                "estadio": estadio or "No disponible",
+                "goleador_historico": goleador_historico,
+                "jugadores_historicos": jugadores_historicos.split(',') if jugadores_historicos else [],
+                "jugador_mas_partidos": jugador_mas_partidos,
+                "jugador_mas_titulos": jugador_mas_titulos,
+                "entrenador_mas_ganador": entrenador_mas_ganador,
+                "estadio": estadio,
                 "plantel": {
-                    "arqueros": plantel_arqueros,
-                    "defensores": plantel_defensores,
-                    "mediocampistas": plantel_mediocampistas,
-                    "delanteros": plantel_delanteros,
+                    "Arqueros": plantel_arqueros,
+                    "Defensores": plantel_defensores,
+                    "Mediocampistas": plantel_mediocampistas,
+                    "Delanteros": plantel_delanteros
                 }
             }
         else:
-            print("Error al acceder a TyC Sports:", response.status_code)
+            print(f"Error al acceder a {team_url}: {response.status_code}")
             return {}
-
-    except Exception as e:
-        print(f"Error al obtener datos de TyC Sports: {e}")
+    except requests.RequestException as e:
+        print(f"Error al hacer la solicitud: {e}")
         return {}
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     fetch_data()
