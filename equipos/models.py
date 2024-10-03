@@ -15,11 +15,22 @@ class Selecciones(models.Model):
 
 
 class EquipoFutbol(models.Model):
-    nombre = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
-    historia = models.TextField(blank=True, null=True)
-    fecha_fundacion = models.DateField(blank=True, null=True)
-    ciudad = models.CharField(max_length=100, blank=True, null=True)
+    nombre = models.CharField(max_length=255)
+    logo = models.URLField()
+    ciudad = models.TextField(blank=True)
+    historia = models.TextField(blank=True)
+    apodo = models.CharField(max_length=100, blank=True)
+    director_tecnico = models.CharField(max_length=255, blank=True)
+    presidente = models.CharField(max_length=255, blank=True)
+    vicepresidente = models.CharField(max_length=255, blank=True)
+    cantidad_socios = models.IntegerField(null=True, blank=True)
+    goleador_historico = models.CharField(max_length=255, blank=True)
+    jugadores_historicos = models.JSONField(blank=True, null=True)  # Almacena una lista de jugadores históricos
+    jugador_mas_partidos = models.CharField(max_length=255, blank=True)
+    jugador_mas_titulos = models.CharField(max_length=255, blank=True)
+    entrenador_mas_ganador = models.CharField(max_length=255, blank=True)
+    estadio = models.CharField(max_length=255, blank=True)
+    plantel_actual = models.JSONField(blank=True, null=True)  # Almacena una lista de jugadores actuales
     
     def __str__(self):
         return self.nombre
