@@ -31,6 +31,10 @@ wiki_wiki = wikipediaapi.Wikipedia(
     user_agent='MundoFutbolApp/1.0 (juampybj2013@gmail.com)',  # Cambia esto con tu email
     language='es'
 )
+def delete_all_players():
+    """Función para borrar todos los jugadores de la base de datos."""
+    Jugador.objects.all().delete()
+    print("Todos los jugadores han sido eliminados de la base de datos.")
 
 def fetch_data():
     """Función para obtener datos de equipos de la API de API-FOOTBALL y TyC Sports."""
@@ -145,10 +149,10 @@ def safe_find_next(soup, search_text):
     """Función para buscar un texto y obtener el siguiente elemento, manejando errores."""
     try:
         element = soup.find(text=search_text)
-        return element.find_next().text.strip() if element else None
+        return element.find_next().text.strip() if element else "Dato no disponible"
     except Exception as e:
         print(f"Error buscando {search_text}: {e}")
-        return None
+        return "Dato no disponible"
 
 def get_tycsports_data(team_name):
     """Función para obtener datos de TyC Sports."""
@@ -164,17 +168,16 @@ def get_tycsports_data(team_name):
             soup = BeautifulSoup(response.content, 'html.parser')
 
             # Extraer información del equipo
-            apodo = safe_find_next(soup, 'Apodo')
+            apodo = safe_find_next(soup, 'Apodo')  # Asegúrate de que estás buscando el texto correcto
             director_tecnico = safe_find_next(soup, 'Director Técnico') or safe_find_next(soup, 'Entrenador')
             presidente = safe_find_next(soup, 'Presidente')
             vicepresidente = safe_find_next(soup, 'Vicepresidente')
             cantidad_socios_valor = safe_find_next(soup, 'Cantidad de socios')
 
-            # Asegúrate de que la variable no sea None antes de convertir
             if cantidad_socios_valor is not None:
                 cantidad_socios_valor = cantidad_socios_valor.replace('.', '')  # Remover puntos si existen
             else:
-                cantidad_socios_valor = "Cantidad de socios no disponible"  # Valor por defecto
+                cantidad_socios_valor = "Cantidad de socios no disponible"
 
             jugadores_historicos = safe_find_next(soup, 'Jugadores históricos')
             goleador_historico = safe_find_next(soup, 'Goleador histórico')
@@ -189,24 +192,27 @@ def get_tycsports_data(team_name):
             plantel_mediocampistas = [mediocampista.text.strip() for mediocampista in soup.find(text='Mediocampistas').find_next('ul').find_all('li')] if soup.find(text='Mediocampistas') else []
             plantel_delanteros = [delantero.text.strip() for delantero in soup.find(text='Delanteros').find_next('ul').find_all('li')] if soup.find(text='Delanteros') else []
 
+            # Concatenar todos los jugadores en una lista
+            plantel_actual = {
+                "Arqueros": plantel_arqueros,
+                "Defensores": plantel_defensores,
+                "Mediocampistas": plantel_mediocampistas,
+                "Delanteros": plantel_delanteros
+            }
+
             return {
-                "apodo": apodo,
-                "director_tecnico": director_tecnico,
-                "presidente": presidente,
-                "vicepresidente": vicepresidente,
+                "apodo": apodo or "Dato no disponible",
+                "director_tecnico": director_tecnico or "Dato no disponible",
+                "presidente": presidente or "Dato no disponible",
+                "vicepresidente": vicepresidente or "Dato no disponible",
                 "cantidad_socios": cantidad_socios_valor,
-                "goleador_historico": goleador_historico,
+                "goleador_historico": goleador_historico or "Dato no disponible",
                 "jugadores_historicos": jugadores_historicos.split(',') if jugadores_historicos else [],
-                "jugador_mas_partidos": jugador_mas_partidos,
-                "jugador_mas_titulos": jugador_mas_titulos,
-                "entrenador_mas_ganador": entrenador_mas_ganador,
-                "estadio": estadio,
-                "plantel": {
-                    "Arqueros": plantel_arqueros,
-                    "Defensores": plantel_defensores,
-                    "Mediocampistas": plantel_mediocampistas,
-                    "Delanteros": plantel_delanteros
-                }
+                "jugador_mas_partidos": jugador_mas_partidos or "Dato no disponible",
+                "jugador_mas_titulos": jugador_mas_titulos or "Dato no disponible",
+                "entrenador_mas_ganador": entrenador_mas_ganador or "Dato no disponible",
+                "estadio": estadio or "Dato no disponible",
+                "plantel": plantel_actual
             }
         else:
             print(f"Error al acceder a {team_url}: {response.status_code}")
@@ -215,5 +221,8 @@ def get_tycsports_data(team_name):
         print(f"Error al hacer la solicitud: {e}")
         return {}
 
+
 if __name__ == "__main__":
+    # Llama a esta función si necesitas borrar todos los jugadores
+    delete_all_players()
     fetch_data()
